@@ -1,16 +1,32 @@
 %% Initial definitions
-
 close all; clear; clc;
+include_vibrato = true;
 Nfft = 2^12;
 fs = 8000;
 Ts = 1/fs;
-T = 2;
-n = 0:1:round(2/Ts) - 1;
+T = 4;
+n = 0:1:round(T/Ts) - 1;
 
 %% Original signal to be studied
 f0 = 880;
 wn0 = 2*pi*f0/fs;
-x = sin(wn0*n) + sin(2*wn0*n) + sin(3*wn0*n) + sin(4*wn0*n);
+phi0 = [0 0 0 0];
+
+% Configuring the vibrato
+A_vib = 20;
+f_vib = 5;
+wn_vib = 2*pi*f_vib/fs;
+phi_vib = 0; 
+if include_vibrato
+    vib = A_vib/f_vib*sin(wn_vib*n + phi_vib);
+else
+    vib = 0;
+end
+
+x = sin(1*wn0*n + phi0(1) + 1*vib) + ...
+    sin(2*wn0*n + phi0(2) + 2*vib) + ...
+    sin(3*wn0*n + phi0(3) + 3*vib) + ...
+    sin(4*wn0*n + phi0(4) + 4*vib);
 
 % Visualization of the Fourier Transform of the original signal
 X = fft(x, Nfft);
@@ -117,3 +133,6 @@ subtitle('|Y_{hh}(e^{j \omega})|');
 ax = gca;
 ax.XTick = f_ticks;
 fig = gcf;
+
+%% Short-Term Fourier Transform (Transformée Fourier de Court Terme)
+
