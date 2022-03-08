@@ -18,7 +18,7 @@ y = x + v;  % Noisy signal
 
 %% Plotting scalograms of x, v, t with Continuous Wavelet Transform
 wname_cwt = 'morse';
-if false
+if true
     figure();
     cwt(x, wname_cwt);
     title('Scalogram of x(t)');
@@ -33,6 +33,8 @@ end
 %% Decomposing signal with Discrete Wavelet Transform
 wname = 'sym20';
 level = 10;
+fprintf('Wavelet type: %s\n', wname);
+fprintf('Number of filter bank levels: %d\n', level);
 [c, l] = wavedec(y, level, wname);
 d = detcoef(c, l, 1:1:level);
 
@@ -57,6 +59,7 @@ edges = 0:0.1:3;
 figure();
 histogram(coef_vec, edges, 'FaceColor', 'b');
 xlim([0, 3]);
+title('Detail coefficient histogram');
 
 %% Wavelet thresholding analysis through denoising ratio
 
@@ -64,7 +67,7 @@ number_of_realizations = 1; % Number of realizations
 thresholding_type = 'h'; 
 thresholds = 0:0.01:1;
 denoising_ratio = zeros(1, length(thresholds));
-fprintf('Wavelet thresholding analysis\n');
+fprintf('\nPerforming wavelet thresholding analysis\n');
 for l = 1:number_of_realizations
     fprintf('%d/%d\n', l, number_of_realizations);
     % Draw at each realization a new statistically independent random
@@ -105,8 +108,8 @@ fprintf('\nbest_ratio: %.4f \nbest_threshold: %.4f\n', best_ratio, best_threshol
 %% Plotting denoising ratio
 figure();
 plot(thresholds, denoising_ratio, 'b');
-hold on;
-stem(loc, pk, 'r');
+hold on; stem(loc, pk, 'r'); hold off;
+title('Denoising ratio graph');
 xlabel('Thresholds');
 ylabel('Denoising ratio');
 xlim([0, 1]);
@@ -162,7 +165,7 @@ error_denoise_uni = y_denoise_uni - x;
 energy_error_denoise_uni = sum(error_denoise_uni.^2);
 SNR_denoise_uni = snr(x, error_denoise_uni);
 
-fprintf('\nComparison with universal thresholding:\n');
+fprintf('\nComparison with universal thresholding.\n');
 fprintf('energy_error_denoise_uni: %.4f\n', energy_error_denoise_uni);
 fprintf('SNR_denoise_uni: %.4f\n', SNR_denoise_uni);
 
@@ -174,7 +177,7 @@ error_denoise_mat = y_denoise_mat - x;
 energy_error_denoise_mat = sum(error_denoise_mat.^2);
 SNR_denoise_mat = snr(x, error_denoise_mat);
 
-fprintf('\nComparison with rigrsure thresholding:\n');
+fprintf('\nComparison with rigrsure thresholding.\n');
 fprintf('energy_error_denoise_mat: %.4f\n', energy_error_denoise_mat);
 fprintf('SNR_denoise_mat: %.4f\n', SNR_denoise_mat);
 
