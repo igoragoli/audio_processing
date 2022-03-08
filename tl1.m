@@ -1,5 +1,8 @@
+% Première Partie du TL - Bancs de Filtres
+
 %% Initial definitions
 close all; clear; clc;
+parameters;
 include_vibrato = true;
 Nfft = 2^12;
 fs = 8000;
@@ -136,3 +139,35 @@ fig = gcf;
 
 %% Short-Term Fourier Transform (Transformée Fourier de Court Terme)
 
+% Set up FFT parameters
+load('params.mat');
+Ts_y = 1/fs_y;
+N_fft = params.fft.N_fft;
+N_frame = round(params.fft.T_frame/Ts_y);
+step = round(params.fft.T_step/Ts_y);
+N = length(x);
+number_of_steps = ceil(N/step);
+ignore_frames_before = floor(0/T*number_of_steps);
+ignore_frames_after = ceil(T/T*number_of_steps);
+
+% Set up window
+h = hann(N_frame)';
+
+% Get frequencies
+fll = get_frequencies_fft(yll, h, fs_y, N_frame, step, N_fft, ...
+    ignore_frames_before, ignore_frames_after, params);
+flh = get_frequencies_fft(ylh, h, fs_y, N_frame, step, N_fft, ...
+    ignore_frames_before, ignore_frames_after, params);
+fhl = get_frequencies_fft(yhl, h, fs_y, N_frame, step, N_fft, ...
+    ignore_frames_before, ignore_frames_after, params);
+fhh = get_frequencies_fft(yhh, h, fs_y, N_frame, step, N_fft, ...
+    ignore_frames_before, ignore_frames_after, params);
+
+% Plot graphs
+T_step = T / length(fll);
+t = 0:T_step:T - T_step;
+figure();
+set(0, 'DefaultAxesColorOrder', jet(4));
+plot(t, fll, t, flh, t, fhl, t, fhh);
+legend('f_{ll}', 'f_{lh}', 'f_{hl}', 'f_{hh}');
+title('f(t)');
