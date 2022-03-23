@@ -10,6 +10,8 @@ dirs_oiseaux = dirs_oiseaux(~ismember({dirs_oiseaux.name},{'.','..'}));
 num_dirs = length(dirs_oiseaux);
 
 features = cell(num_dirs, 1);
+
+% Going through all folders in "SONS"
 for i = 1:length(dirs_oiseaux)
 
     dir_oiseau = dirs_oiseaux(i).name;
@@ -17,6 +19,8 @@ for i = 1:length(dirs_oiseaux)
     num_files = length(files);
     
     feat_array = zeros(num_files, 2);
+
+    % Going through all files in each folder
     for j = 1:num_files
       filename = files(j).name;
       fullfilename = fullfile("SONS", dir_oiseau, filename);
@@ -32,6 +36,7 @@ for i = 1:length(dirs_oiseaux)
       % Finding the peaks of the FFT
       [peaks, locs] = findpeaks(P, 'MinPeakHeight', 0.01);
       locs = locs*Fs/n;
+      % Taking first peak's amplitude and frequency
       [loc, loc_idx] = min(locs);
       peak = peaks(loc_idx);
     
@@ -80,7 +85,7 @@ o3_f2=(o3_f2-mean2)/std2;
 % legend("Bird 1", "Bird 2", "Bird 3")
 % hold off;
 
-%% Division between training set and test set (80/20)
+%% Division between training set and test set (80% for training/20% for test)
 
 o1_f1_train = o1_f1(1:round(length(o1_f1)*0.8));
 o1_f2_train = o1_f2(1:round(length(o1_f2)*0.8));
@@ -111,6 +116,8 @@ dirs_oiseaux = dirs_oiseaux(~ismember({dirs_oiseaux.name},{'.','..'}));
 num_dirs = length(dirs_oiseaux);
 
 features = cell(num_dirs, 1);
+
+% Going through all folders in "SONS-VC"
 for i = 1:length(dirs_oiseaux)
 
     dir_oiseau = dirs_oiseaux(i).name;
@@ -118,6 +125,8 @@ for i = 1:length(dirs_oiseaux)
     num_files = length(files);
     
     feat_array = zeros(num_files, 2);
+
+    % Going through all files in each folder
     for j = 1:num_files
       filename = files(j).name;
       fullfilename = fullfile("SONS-VC", dir_oiseau, filename);
@@ -133,6 +142,7 @@ for i = 1:length(dirs_oiseaux)
       % Finding the peaks of the FFT
       [peaks, locs] = findpeaks(P, 'MinPeakHeight', 0.01);
       locs = locs*Fs/n;
+      % Taking first peak's amplitude and frequency
       [loc, loc_idx] = min(locs);
       peak = peaks(loc_idx);
     
@@ -153,11 +163,6 @@ feat3 = features{3, 1};
 o1_f1_val = feat1(:, 1); o1_f2_val = feat1(:, 2);
 o2_f1_val = feat2(:, 1); o2_f2_val = feat2(:, 2);
 o3_f1_val = feat3(:, 1); o3_f2_val = feat3(:, 2);
-
-mean1=mean([o1_f1_val; o2_f1_val; o3_f1_val]);
-mean2=mean([o1_f2_val; o2_f2_val; o3_f2_val]);
-std1=std([o1_f1_val; o2_f1_val; o3_f1_val]);
-std2=std([o1_f2_val; o2_f2_val; o3_f2_val]);
 
 o1_f1_val=(o1_f1_val-mean1)/std1;
 o1_f2_val=(o1_f2_val-mean2)/std2;

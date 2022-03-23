@@ -5,6 +5,7 @@ close all; clear; clc;
 
 %% Loading data
 
+% Training data
 train_file = matfile("train_tl3.mat");
 train_arr = train_file.train_tl3;
 
@@ -15,6 +16,7 @@ o2_f2_train = train_arr(:, 4);
 o3_f1_train = train_arr(:, 5);
 o3_f2_train = train_arr(:, 6);
 
+% Test data
 test_file = matfile("test_tl3.mat");
 test_arr = test_file.test_tl3;
 
@@ -25,6 +27,7 @@ o2_f2_test = test_arr(:, 4);
 o3_f1_test = test_arr(:, 5);
 o3_f2_test = test_arr(:, 6);
 
+% Validation data
 val_file = matfile("val_tl3.mat");
 val_arr = val_file.val_tl3;
 
@@ -83,11 +86,14 @@ feat_train = {[o1_f1_train o1_f2_train], [o2_f1_train o2_f2_train], [o3_f1_train
 
 success_count=0;
 total_count=0;
+
+% Going through every bird (1, 2 and 3)
 for i=1:length(feat_train)
 
     feat = feat_train{i};
     total_count=total_count+length(feat);
 
+    % Going through every pair [amplitude, frequency]
     for j=1:length(feat)
 
         sample=feat(j, :);
@@ -98,6 +104,7 @@ for i=1:length(feat_train)
         clnew = [clnew1, clnew2, clnew3];
         [~, max_idx] = max(clnew);
 
+        % Checks if prediction is right
         if max_idx==i
             success_count=success_count+1;
         end
@@ -117,10 +124,14 @@ feat_test = {[o1_f1_test o1_f2_test], [o2_f1_test o2_f2_test], [o3_f1_test o3_f2
 
 success_count=0;
 total_count=0;
+
+% Going through every bird (1, 2 and 3)
 for i=1:length(feat_test)
 
     feat = feat_test{i};
     total_count=total_count+length(feat);
+
+    % Going through every pair [amplitude, frequency]
     for j=1:length(feat)
 
         sample=feat(j, :);
@@ -131,6 +142,7 @@ for i=1:length(feat_test)
         clnew = [clnew1, clnew2, clnew3];
         [~, max_idx] = max(clnew);
 
+        % Checks if prediction is right
         if max_idx==i
             success_count=success_count+1;
         end
@@ -149,10 +161,14 @@ feat_val = {[o1_f1_val o1_f2_val], [o2_f1_val o2_f2_val], [o3_f1_val o3_f2_val]}
 
 success_count=0;
 total_count=0;
+
+% Going through every bird (1, 2 and 3)
 for i=1:length(feat_val)
 
     feat = feat_val{i};
     total_count=total_count+length(feat);
+
+    % Going through every pair [amplitude, frequency]
     for j=1:length(feat)
 
         sample=feat(j, :);
@@ -163,6 +179,7 @@ for i=1:length(feat_val)
         clnew = [clnew1, clnew2, clnew3];
         [~, max_idx] = max(clnew);
 
+        % Checks if prediction is right
         if max_idx==i
             success_count=success_count+1;
         end
@@ -174,21 +191,3 @@ end
 cross_validation_error=(total_count-success_count)/total_count*100;
 disp(" ")
 disp("Cross-validation Error: " + cross_validation_error + "%")
-
-%% plot pour la route
-% figure(7);
-% clf;
-% title('frontiere entre les 3 classes');
-% hold on;
-% imagesc(ppd1res,ppd2res,-clnew');
-% grid on;
-% hold on;
-% plot(o1_f1,o1_f2,'*r');
-% plot(o2_f1,o2_f2,'ob');
-% plot(o3_f1,o3_f2,'+g');
-% xlabel('dimension 1');
-% ylabel('dimension 2');
-% xlim([min(ppd1res) max(ppd1res)]);
-% ylim([min(ppd2res) max(ppd2res)]);
-% hold off;
-% colormap('cool');
