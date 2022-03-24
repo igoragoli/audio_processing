@@ -102,7 +102,7 @@ figure();
 subplot(4, 1, 1);
 plot(f_vals*fs_y, abs(Yll), 'r');
 title('Second decomposition');
-subtitle('|Y_l(e^{j \omega})|');
+subtitle('|Y_{ll}(e^{j \omega})|');
 ax = gca;
 ax.XTick = f_ticks;
 
@@ -153,7 +153,7 @@ ignore_frames_after = ceil(T/T*number_of_steps);
 % Set up window
 h = hann(N_frame)';
 
-% Get frequencies
+% Get frequencies through STFT
 fll = get_frequencies_fft(yll, h, fs_y, N_frame, step, N_fft, ...
     ignore_frames_before, ignore_frames_after, params);
 flh = get_frequencies_fft(ylh, h, fs_y, N_frame, step, N_fft, ...
@@ -167,7 +167,7 @@ fhh = get_frequencies_fft(yhh, h, fs_y, N_frame, step, N_fft, ...
 T_step = T / length(fll);
 t = 0:T_step:T - T_step;
 figure();
-set(0, 'DefaultAxesColorOrder', jet(4));
-plot(t, fll, t, flh, t, fhl, t, fhh);
-legend('f_{ll}', 'f_{lh}', 'f_{hl}', 'f_{hh}');
+set(0, 'DefaultAxesColorOrder', winter(4));
+plot(t, fll, t, fhh, t, fhl, t, flh, 'LineWidth', 1);
+legend('f_{ll}', 'f_{hh}', 'f_{hl}', 'f_{lh}');
 title('f(t)');

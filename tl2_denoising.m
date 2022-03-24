@@ -180,18 +180,3 @@ SNR_denoise_mat = snr(x, error_denoise_mat);
 fprintf('\nComparison with rigrsure thresholding.\n');
 fprintf('energy_error_denoise_mat: %.4f\n', energy_error_denoise_mat);
 fprintf('SNR_denoise_mat: %.4f\n', SNR_denoise_mat);
-
-%% Notes
-% Using 'db1' wavelets:
-% SNR with soft thresholding: 13.7 dB, SNR with hard thresholding:
-% 13.5 dB
-% Although the SNR is over 2 dB higher than in manually soft thresholding,
-% qualitatively, the denoised sounds are very similar.
-
-% Using 'sym20' wavelets:
-% SNR with soft thresholding: 20.2881 dB, SNR with hard thresholding: 
-% 23.9064 dB
-% SNR with rigrsure thresholding: 24.2458 dB
-
-% TODO : Suggestion from the prof, calculate things with other wavelets. 
-% 'db1', 'sym20', 'sym18', and one other I think.

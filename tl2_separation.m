@@ -94,11 +94,15 @@ for i = 1:length(d)
     powers_d(i) = sum(d{i}.^2)/length(d{i});
 end
 
+% Calculates mean_idx (index between two coefficient levels with most
+% energy)
 [~, idx] = maxk(powers_d, 2);
 mean_idx = round(mean(idx));
 fprintf("\nDetail coefficient levels with greatest power: %d and %d\n", idx);
 fprintf("Splitting detail coefficient levels at index %d (higher levels include %d)\n", ...
     mean_idx, mean_idx);
+
+% Calculates split_idx and end_idx through bookkeeping vector l
 idx1 = l((end - mean_idx)+1:end - 1);
 idx2 = l(1:mean_idx);
 split_idx = sum(idx2);
