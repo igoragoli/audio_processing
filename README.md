@@ -1,24 +1,21 @@
 # Répresentation Parcimonieuses des Signaux
 
-## TL1
-Les programmes concernant le TL1 sont implementés en Matlab et en Python (Jupyter notebooks):
-- `tl1.m`
+## `filter_banks/`
+The programs in this folder consist in using filter banks and the STFT(Short-Term Fourier Transform) to separate 4 sinusoidal signals.
+- `filter_banks.m`
 - `parameters.m` (pour la configuration des paramètres pour la TFCT)
 - `get_frequencies_fft.m` 
-- `tl1.ipynb`
-- `tl1_vibrato.ipynb`
+- `filter_banks.ipynb`
+- `filter_banks.ipynb`
 
-## TL2
-Les programmes et fichiers concernant le TL2 sont:
-- `tl2_denoising.m`
-- `tl1_separation.m`
+## `wavelets/`
+Denoising and signal separation is performed by using wavelet transforms. The package `ltfat-master` is used in this part.
+- `denoising.m`
+- `separation.m`
 
-Le package `ltfat-master` est aussi utilisé dans cette partie.
-
-## TL3
-Les programmes et fichiers concernant le TL3 sont:
-- `tl3_generate_base.m`
-- `tl3.m`
+## `supervised_learning``
+- `generate_base.m`
+- `main.m`
 - `train_tl3.mat` 
 - `test_tl3.mat`
 - `val_tl3.mat`
