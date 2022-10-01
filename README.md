@@ -13,7 +13,7 @@ Denoising and signal separation is performed by using wavelet transforms. The pa
 - `denoising.m`
 - `separation.m`
 
-## `supervised_learning`
+## `supervised_learning/`
 - `generate_base.m`
 - `main.m`
 - `train_tl3.mat` 
